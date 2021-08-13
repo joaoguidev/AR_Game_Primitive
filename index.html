@@ -12,8 +12,9 @@
     <a-assets>
       <a-asset-item id="dance" src="./assets/manuel.glb" ></a-asset-item>
     </a-assets>
-    <a-entity glTF-model="#dance" scale="0.01 0.01 0.01" animation-mixer="clip: Take 001"></a-entity>
-    <a-marker-camera preset='hiro'></a-marker-camera>
+    <a-marker-camera preset='hiro'>
+      <a-entity glTF-model="#dance" scale="0.01 0.01 0.01" animation-mixer="clip: Take 001"></a-entity>
+    </a-marker-camera>
   </a-scene>
 </body>
 </html>
