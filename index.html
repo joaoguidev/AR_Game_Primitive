@@ -8,13 +8,18 @@
 </head>
 
 <body style='margin : 0px; overflow: hidden;'>
-  <a-scene embedded arjs>
+  <a-scene embedded arjs='sourceType: webcam;'>
     <a-assets>
       <a-asset-item id="dance" src="./assets/manuel.glb" ></a-asset-item>
     </a-assets>
-    <a-marker-camera preset='hiro'>
-      <a-entity glTF-model="#dance" scale="0.01 0.01 0.01" animation-mixer="clip: Take 001"></a-entity>
-    </a-marker-camera>
+    <a-marker preset="hiro">
+      <a-entity 
+      glTF-model="#dance" 
+      scale="0.01 0.01 0.01" 
+      position="0 0 0"
+      animation-mixer="clip: Take 001"></a-entity>
+    </a-marker>
+    <a-entity camera></a-entity>
   </a-scene>
 </body>
 </html>
