@@ -2,40 +2,76 @@
 <html lang="en">
 <head>
 	<Title>AR Card Game</Title>
+	
 	<script src="https://aframe.io/releases/1.2.0/aframe.min.js"></script>
 	<script src="https://raw.githack.com/AR-js-org/AR.js/master/aframe/build/aframe-ar.js"></script>
 	<script src="https://cdn.jsdelivr.net/gh/donmccurdy/aframe-extras@v6.1.1/dist/aframe-extras.min.js"></script>
-	
 </head>
 
 <body style='margin : 0px; overflow: hidden;'>
-	<a-scene embedded arjs='detectionMode: mono_and_matrix; matrixCodeType: 3x3;'>
+
+	<!-- <a-scene embedded arjs='detectionMode: mono_and_matrix; matrixCodeType: 3x3;'> -->
+	<a-scene >
 
 		<a-assets>
 			<!-- <a-asset-item id="dance" src="./assets/manuel.glb" ></a-asset-item> -->
 			<a-asset-item id="robot" src="./assets/robot/robot.glb" ></a-asset-item>
 			<a-asset-item id="whale" src="./assets/whale/scene.gltf" ></a-asset-item>
+			<a-asset-item id="explosion" src="./assets/explosion/scene.gltf" ></a-asset-item>
 		</a-assets>
 
-		<a-marker type='barcode' value='0'>
+		<!-- <a-marker type='barcode' value='0' > -->
 			<a-entity 
+				test
+				class="hero"
 				gltf-model="#robot" 
 				scale="0.008 0.008 0.008" 
-				position="0 0 0"
+				position="8 -10 -30"
 				animation-mixer="clip: Take 001">
+			
 			</a-entity>
-		</a-marker>
-		<a-marker type='barcode' value='1'>
+		<!-- </a-marker>
+		<a-marker type='barcode' value='1' > -->
 			<a-entity 
+				
+				class="hero"
 				gltf-model="#whale" 
 				scale="0.9 0.9 0.9" 
-				position="0 1 0"
+				position="-8 1 -20"
 				animation-mixer="clip: Swimming">
+				<a-entity
+						position="0 -3 0"
+						text="value: Status \n aaa; color: #FFD; align: center; wrapCount: 9"
+						geometry="primitive: plane; width: 3; height: 3 position: 0 0 0"
+						material="color: #FFAA00; shader: flat; visible: true"
+						look-at="#camera"
+					>
+				</a-entity>
 			</a-entity>
-		</a-marker>
+			
+
+			<a-entity
+				position="0 0 -5"
+				text="value: Fight; color: #FFD; align: center; wrapCount: 9"
+				geometry="primitive: plane; width: 0.4; height: 0.4 position: 0 0 0"
+				material="color: #AACC00; shader: flat; visible: true"
+				look-at="#camera"
+			>
+		</a-entity>
+		<!-- </a-marker> -->
+		<!-- <a-marker type='barcode' value='1' > -->
+			<!-- <a-entity 
+				gltf-model="#explosion" 
+				scale="0.005 0.005 0.005" 
+				position="0 0 -1"
+				animation-mixer="clip: Take 001">
+			</a-entity> -->
+		<!-- </a-marker> -->
 		
-		<a-entity camera></a-entity>
+		<a-entity id="camera" camera></a-entity>
 	</a-scene>
+
+	<script src="./game.js"></script>
 </body>
 </html>
 
