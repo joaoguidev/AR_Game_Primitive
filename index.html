@@ -11,8 +11,17 @@
 <body style='margin : 0px; overflow: hidden;'>
 
 	<!-- <a-scene embedded arjs='detectionMode: mono_and_matrix; matrixCodeType: 3x3;'> -->
-	<a-scene >
-
+	<a-scene collision-listener >
+            <a-entity  id="rig" position="0 0 0.1" >
+                <a-camera id="camera" spectator="true" rotation-reader>
+                    <a-cursor 
+                    fuse="true"
+                    fuse-timeout="1000"
+                    animation__fusing="property: scale; startEvents: fusing; easing: linear; dur: 1000; from: 1 1 1; to: 0.1 0.1 0.1"
+                    animation__mouseleave="property: scale; startEvents: mouseleave; easing: easeInCubic; dur: 500; to: 1 1 1"
+                    ></a-cursor>
+                </a-camera>
+            </a-entity>
 		<a-assets>
 			<!-- <a-asset-item id="dance" src="./assets/manuel.glb" ></a-asset-item> -->
 			<a-asset-item id="robot" src="./assets/robot/robot.glb" ></a-asset-item>
@@ -33,7 +42,7 @@
 		<!-- </a-marker>
 		<a-marker type='barcode' value='1' > -->
 			<a-entity 
-				
+				test
 				class="hero"
 				gltf-model="#whale" 
 				scale="0.9 0.9 0.9" 
@@ -51,13 +60,27 @@
 			
 
 			<a-entity
+				fight-btn
+				id="fightBtn"
+				visible="true"
 				position="0 0 -5"
 				text="value: Fight; color: #FFD; align: center; wrapCount: 9"
 				geometry="primitive: plane; width: 0.4; height: 0.4 position: 0 0 0"
 				material="color: #AACC00; shader: flat; visible: true"
 				look-at="#camera"
 			>
-		</a-entity>
+			</a-entity>
+			<!-- <a-entity 
+				gltf-model="#explosion" 
+				scale="0.008 0.008 0.008" 
+				position="8 -10 -30"
+				animation-mixer="clip: Take 001; loop: once; clampWhenFinished: true; timeScale: 0.5">
+			</a-entity> -->
+			
+			<a-entity
+			id="collision-places"
+			></a-entity>
+
 		<!-- </a-marker> -->
 		<!-- <a-marker type='barcode' value='1' > -->
 			<!-- <a-entity 
@@ -68,7 +91,7 @@
 			</a-entity> -->
 		<!-- </a-marker> -->
 		
-		<a-entity id="camera" camera></a-entity>
+		<!-- <a-entity id="camera" camera></a-entity> -->
 	</a-scene>
 
 	<script src="./game.js"></script>
