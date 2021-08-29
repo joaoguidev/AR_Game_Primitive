@@ -29,7 +29,7 @@
 			<a-asset-item id="explosion" src="./assets/explosion/scene.gltf" ></a-asset-item>
 		</a-assets>
 
-		<!-- <a-marker type='barcode' value='0' > -->
+		<a-marker type='barcode' value='0' >
 			<a-entity 
 				test
 				class="hero"
@@ -39,8 +39,8 @@
 				animation-mixer="clip: Take 001">
 			
 			</a-entity>
-		<!-- </a-marker>
-		<a-marker type='barcode' value='1' > -->
+		</a-marker>
+		<a-marker type='barcode' value='1' >
 			<a-entity 
 				test
 				class="hero"
@@ -58,8 +58,9 @@
 				</a-entity>
 			</a-entity>
 			
+		</a-marker>
 
-			<a-entity
+		<a-entity
 				fight-btn
 				id="fightBtn"
 				visible="true"
@@ -69,27 +70,7 @@
 				material="color: #AACC00; shader: flat; visible: true"
 				look-at="#camera"
 			>
-			</a-entity>
-			<!-- <a-entity 
-				gltf-model="#explosion" 
-				scale="0.008 0.008 0.008" 
-				position="8 -10 -30"
-				animation-mixer="clip: Take 001; loop: once; clampWhenFinished: true; timeScale: 0.5">
-			</a-entity> -->
-			
-			<a-entity
-			id="collision-places"
-			></a-entity>
-
-		<!-- </a-marker> -->
-		<!-- <a-marker type='barcode' value='1' > -->
-			<!-- <a-entity 
-				gltf-model="#explosion" 
-				scale="0.005 0.005 0.005" 
-				position="0 0 -1"
-				animation-mixer="clip: Take 001">
-			</a-entity> -->
-		<!-- </a-marker> -->
+		</a-entity>
 		
 		<!-- <a-entity id="camera" camera></a-entity> -->
 	</a-scene>
