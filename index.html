@@ -10,18 +10,15 @@
 
 <body style='margin : 0px; overflow: hidden;'>
 
-	<!-- <a-scene embedded arjs='detectionMode: mono_and_matrix; matrixCodeType: 3x3;'> -->
-	<a-scene collision-listener >
-            <a-entity  id="rig" position="0 0 0.1" >
-                <a-camera id="camera" spectator="true" rotation-reader>
-                    <a-cursor 
-                    fuse="true"
-                    fuse-timeout="1000"
-                    animation__fusing="property: scale; startEvents: fusing; easing: linear; dur: 1000; from: 1 1 1; to: 0.1 0.1 0.1"
-                    animation__mouseleave="property: scale; startEvents: mouseleave; easing: easeInCubic; dur: 500; to: 1 1 1"
-                    ></a-cursor>
-                </a-camera>
-            </a-entity>
+	<a-scene 
+    collision-listener 
+    embedded 
+    renderer="logarithmicDepthBuffer: true;"
+    vr-mode-ui="enabled: false;"
+    arjs='trackingMethod: best; sourceType: webcam; detectionMode: mono_and_matrix; matrixCodeType: 3x3;'>
+     <!-- arjs='trackingMethod: best; sourceType: webcam; detectionMode: mono_and_matrix; matrixCodeType: 3x3;'> -->
+	<!-- <a-scene collision-listener > -->
+
 		<a-assets>
 			<!-- <a-asset-item id="dance" src="./assets/manuel.glb" ></a-asset-item> -->
 			<a-asset-item id="robot" src="./assets/robot/robot.glb" ></a-asset-item>
@@ -29,50 +26,70 @@
 			<a-asset-item id="explosion" src="./assets/explosion/scene.gltf" ></a-asset-item>
 		</a-assets>
 
-		<a-marker type='barcode' value='0' >
+		<!-- <a-marker type='barcode' value='0' > -->
 			<a-entity 
 				test
 				class="hero"
 				gltf-model="#robot" 
 				scale="0.008 0.008 0.008" 
-				position="8 -10 -30"
+				position="2 1 -10"
 				animation-mixer="clip: Take 001">
 			
 			</a-entity>
-		</a-marker>
-		<a-marker type='barcode' value='1' >
+		<!-- </a-marker> -->
+
+		<!-- <a-marker type='barcode' value='1' > -->
 			<a-entity 
 				test
 				class="hero"
 				gltf-model="#whale" 
 				scale="0.9 0.9 0.9" 
-				position="-8 1 -20"
+				position="-2 0 -10"
 				animation-mixer="clip: Swimming">
 				<a-entity
-						position="0 -3 0"
-						text="value: Status \n aaa; color: #FFD; align: center; wrapCount: 9"
-						geometry="primitive: plane; width: 3; height: 3 position: 0 0 0"
-						material="color: #FFAA00; shader: flat; visible: true"
+						position="0 -3 -1"
+						geometry="primitive: plane; width: 3; height: 3 position: 0 0 -1.1"
+						material="color: #FFAA00; shader: flat; visible: true; depthTest: false"
+						text="value: Status \n qqq; color: #FFD; align: center; wrapCount: 9"
 						look-at="#camera"
 					>
 				</a-entity>
 			</a-entity>
 			
-		</a-marker>
+		<!-- </a-marker> -->
 
 		<a-entity
 				fight-btn
-				id="fightBtn"
-				visible="true"
-				position="0 0 -5"
+				id="fight-btn"
+				visible="false"
+				position="0 0 5"
 				text="value: Fight; color: #FFD; align: center; wrapCount: 9"
 				geometry="primitive: plane; width: 0.4; height: 0.4 position: 0 0 0"
-				material="color: #AACC00; shader: flat; visible: true"
+				material="color: #AACC00; shader: flat; visible: true; depthTest: false"
 				look-at="#camera"
 			>
 		</a-entity>
 		
-		<!-- <a-entity id="camera" camera></a-entity> -->
+		<!-- <a-entity id="rig" >
+			<a-camera id="camera" >
+				<a-cursor 
+				fuse="true"
+				fuse-timeout="1000"
+				animation__fusing="property: scale; startEvents: fusing; easing: linear; dur: 1000; from: 1 1 1; to: 0.1 0.1 0.1"
+				animation__mouseleave="property: scale; startEvents: mouseleave; easing: easeInCubic; dur: 500; to: 1 1 1"
+				></a-cursor>
+			</a-camera>
+		</a-entity> -->
+		<a-entity camera id="camera" look-controls >
+			<a-entity cursor="fuse: true; fuseTimeout: 1000"
+                position="0 0 -1"
+                geometry="primitive: ring; radiusInner: 0.01; radiusOuter: 0.02"
+                material="color: black; shader: flat"
+                animation__fusing="property: scale; startEvents: fusing; easing: linear; dur: 1000; from: 1 1 1; to: 0.1 0.1 0.1"
+				animation__mouseleave="property: scale; startEvents: mouseleave; easing: easeInCubic; dur: 500; to: 1 1 1"
+                >
+            </a-entity>
+		</a-entity>
 	</a-scene>
 
 	<script src="./game.js"></script>
