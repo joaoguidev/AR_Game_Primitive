@@ -177,7 +177,7 @@ function pageFullyLoaded(pageFullyLoaded) {
                     let explosionPosition =
                         evt.detail.position.x + ' ' + evt.detail.position.y + ' ' + evt.detail.position.z
                     explosion.setAttribute('gltf-model', '#explosion')
-                    explosion.setAttribute('scale', '0.002 0.002 0.002')
+                    explosion.setAttribute('scale', '0.005 0.005 0.005')
                     explosion.setAttribute('position', explosionPosition)
                     explosion.setAttribute('animation-mixer', 'clip', 'Take 001')
                     explosion.setAttribute('animation-mixer', 'loop', 'once')
