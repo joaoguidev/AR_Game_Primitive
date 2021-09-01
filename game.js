@@ -70,22 +70,21 @@ function pageFullyLoaded(pageFullyLoaded) {
                 markerPos.copy(marker.getAttribute('position'))
 
                 foeMarkerPos.copy(getSelectedFoe(el).parentNode.getAttribute('position'))
-
                 // console.log('marker')
                 // console.log(markerPos)
                 // console.log('foe')
                 // console.log(foeMarkerPos)
                 foeMarkerPos.sub(markerPos)
-                markerPos.sub(foeMarkerPos)
+                //console.log(foeMarkerPos)
                 // console.log('foe Sub')
                 // console.log(foeMarkerPos)
 
                 //let destination = getSelectedFoe(el)
                 //let destinationPosition = destination.getAttribute('position')
-                let destinationPosition = markerPos
-                distance = direction.copy(destinationPosition).sub(currentPosition).length()
-                direction = direction.copy(destinationPosition).sub(currentPosition).normalize()
-                directionVec3.copy(destinationPosition).sub(currentPosition)
+                let destinationPosition = foeMarkerPos
+                distance = direction.copy(destinationPosition).add(currentPosition).length()
+                direction = direction.copy(destinationPosition).add(currentPosition).normalize()
+                directionVec3.copy(destinationPosition).add(currentPosition)
                 let factor = speed / distance
                 if (distance >= 0.5) {
                     this.el.setAttribute('position', {
