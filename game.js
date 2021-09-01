@@ -75,18 +75,19 @@ function pageFullyLoaded(pageFullyLoaded) {
                 // console.log(markerPos)
                 // console.log('foe')
                 // console.log(foeMarkerPos)
-                 foeMarkerPos.sub(markerPos)
+                foeMarkerPos.sub(markerPos)
+                markerPos.sub(foeMarkerPos)
                 // console.log('foe Sub')
                 // console.log(foeMarkerPos)
 
                 //let destination = getSelectedFoe(el)
                 //let destinationPosition = destination.getAttribute('position')
-                let destinationPosition = foeMarkerPos
+                let destinationPosition = markerPos
                 distance = direction.copy(destinationPosition).sub(currentPosition).length()
                 direction = direction.copy(destinationPosition).sub(currentPosition).normalize()
                 directionVec3.copy(destinationPosition).sub(currentPosition)
                 let factor = speed / distance
-                if (distance >= 2) {
+                if (distance >= 0.5) {
                     this.el.setAttribute('position', {
                         x: currentPosition.x + (directionVec3.x *= factor * (timeDelta / 1000)),
                         y: currentPosition.y + (directionVec3.y *= factor * (timeDelta / 1000)),
