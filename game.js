@@ -86,6 +86,19 @@ function pageFullyLoaded(pageFullyLoaded) {
         },
     })
 
+    function getPositionOfSelectedHeroes() {
+        let selectedPos = []
+
+        allHeroes.forEach((hero) => {
+            if (hero.getAttribute('test').selected) {
+                let heroPositionCopy = new THREE.Vector3()
+                heroPositionCopy.copy(hero.getAttribute('position'))
+                selectedPos.push(heroPositionCopy)
+            }
+        })
+        return selectedPos
+    }
+
     function getSelectedFoe(currentEl) {
         let selectedFoe
         allHeroes.forEach((hero) => {
@@ -134,6 +147,7 @@ function pageFullyLoaded(pageFullyLoaded) {
 
         init: function () {
             let el = this.el
+            this.pos = new THREE.Vector3()
             el.addEventListener('click', function (evt) {
                 if (countSelectedHeroes() >= 2) {
                     fightStatus = true
@@ -150,12 +164,15 @@ function pageFullyLoaded(pageFullyLoaded) {
         tick: function (time, timeDelta) {
             let el = this.el
             let data = this.data
+            let pos = this.pos
             if (count >= 2) {
+                pos = getPositionOfSelectedHeroes()
+                //console.log(pos)
                 fightBtn.setAttribute('visible', true)
                 el.setAttribute('position', {
-                    x: 0,
-                    y: -0.1,
-                    z: -1,
+                    x: (pos[0].x + pos[1].x) / 2,
+                    y: (pos[0].y + pos[1].y) / 2,
+                    z: (pos[0].z + pos[1].z) / 2,
                 })
             } else {
                 fightBtn.setAttribute('visible', false)
