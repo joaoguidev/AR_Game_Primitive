@@ -81,7 +81,7 @@ function pageFullyLoaded(pageFullyLoaded) {
 
                 //let destination = getSelectedFoe(el)
                 //let destinationPosition = destination.getAttribute('position')
-                let destinationPosition = foeMarkerPos
+                let destinationPosition = foeMarkerPos.div(2)
                 distance = direction.copy(destinationPosition).sub(currentPosition).length()
                 direction = direction.copy(destinationPosition).sub(currentPosition).normalize()
                 directionVec3.copy(destinationPosition).sub(currentPosition)
