@@ -10,6 +10,7 @@ function pageFullyLoaded(pageFullyLoaded) {
     allHeroes = document.querySelectorAll('.hero')
     sceneEl = document.querySelector('a-scene')
     fightBtn = document.querySelector('#fight-btn')
+    camera = document.querySelector('#camera')
 
     AFRAME.registerComponent('test', {
         schema: {
@@ -20,8 +21,10 @@ function pageFullyLoaded(pageFullyLoaded) {
 
         init: function () {
             let el = this.el
-
             let data = this.data
+            this.test = true
+            this.parent = this.el.parentNode
+            this.markerPos = new THREE.Vector3()
             this.speed = 2
             this.direction = new THREE.Vector3()
             this.distance = 0
@@ -35,18 +38,12 @@ function pageFullyLoaded(pageFullyLoaded) {
                 }
             })
             el.parentNode.addEventListener('markerFound', function (evt) {
-                el.setAttribute('position', {
-                    x: 0,
-                    y: 0,
-                    z: 0,
-                })
-            })
-            el.parentNode.addEventListener('markerLost', function (evt) {
-                el.setAttribute('position', {
-                    x: 0,
-                    y: 0,
-                    z: 5,
-                })
+                // el.setAttribute('position', {
+                //     x: 0,
+                //     y: 0,
+                //     z: 0,
+                // })
+                el.setAttribute('class', 'hero clickable')
             })
         },
 
@@ -54,17 +51,37 @@ function pageFullyLoaded(pageFullyLoaded) {
 
         tick: function (time, timeDelta) {
             let data = this.data
-            if (fightStatus && !data.entityCollided && allHeroes.length >= 2) {
+            //console.log(this.el.parentNode.object3D.getWorldPosition())
+
+            // if (fightStatus && !data.entityCollided && allHeroes.length >= 2) {
+            if (count >= 2) {
+                this.test = false
                 let el = this.el
                 let data = this.data
+                let marker = this.parent
+                let markerPos = this.markerPos
+                let foeMarkerPos = new THREE.Vector3()
                 let speed = this.speed
                 let direction = this.direction
                 let directionVec3 = this.directionVec3
                 let distance = this.distance
                 let currentPosition = el.getAttribute('position')
                 // let destination = getClosestHero(el, currentPosition)
-                let destination = getSelectedFoe(el)
-                let destinationPosition = destination.getAttribute('position')
+                markerPos.copy(marker.getAttribute('position'))
+
+                foeMarkerPos.copy(getSelectedFoe(el).parentNode.getAttribute('position'))
+
+                // console.log('marker')
+                // console.log(markerPos)
+                // console.log('foe')
+                // console.log(foeMarkerPos)
+                 foeMarkerPos.sub(markerPos)
+                // console.log('foe Sub')
+                // console.log(foeMarkerPos)
+
+                //let destination = getSelectedFoe(el)
+                //let destinationPosition = destination.getAttribute('position')
+                let destinationPosition = foeMarkerPos
                 distance = direction.copy(destinationPosition).sub(currentPosition).length()
                 direction = direction.copy(destinationPosition).sub(currentPosition).normalize()
                 directionVec3.copy(destinationPosition).sub(currentPosition)
@@ -80,7 +97,6 @@ function pageFullyLoaded(pageFullyLoaded) {
                     data.entityCollided = true
                     ++startCollision
                     sceneEl.emit('collision', { position: currentPosition }, true)
-                    //console.log(el.emit('collision', {}, true))
                 }
             }
         },
@@ -167,7 +183,6 @@ function pageFullyLoaded(pageFullyLoaded) {
             let pos = this.pos
             if (count >= 2) {
                 pos = getPositionOfSelectedHeroes()
-                //console.log(pos)
                 fightBtn.setAttribute('visible', true)
                 el.setAttribute('position', {
                     x: (pos[0].x + pos[1].x) / 2,
