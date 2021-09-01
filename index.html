@@ -16,7 +16,6 @@
     renderer="logarithmicDepthBuffer: true;"
     vr-mode-ui="enabled: false;"
     arjs='trackingMethod: best; sourceType: webcam; detectionMode: mono_and_matrix; matrixCodeType: 3x3;'>
-     <!-- arjs='trackingMethod: best; sourceType: webcam; detectionMode: mono_and_matrix; matrixCodeType: 3x3;'> -->
 	<!-- <a-scene collision-listener > -->
 
 		<a-assets>
@@ -26,25 +25,25 @@
 			<a-asset-item id="explosion" src="./assets/explosion/scene.gltf" ></a-asset-item>
 		</a-assets>
 
-		<!-- <a-marker type='barcode' value='0' > -->
+		<a-marker type='barcode' value='0' >
 			<a-entity 
 				test
-				class="hero"
+				class="hero clickable"
 				gltf-model="#robot" 
 				scale="0.008 0.008 0.008" 
-				position="2 1 -10"
+				position="0 0 2"
 				animation-mixer="clip: Take 001">
 			
 			</a-entity>
-		<!-- </a-marker> -->
+		</a-marker>
 
-		<!-- <a-marker type='barcode' value='1' > -->
+		<a-marker type='barcode' value='1' >
 			<a-entity 
 				test
-				class="hero"
+				class="hero clickable"
 				gltf-model="#whale" 
 				scale="0.9 0.9 0.9" 
-				position="-2 0 -10"
+				position="0 0 2"
 				animation-mixer="clip: Swimming">
 				<a-entity
 						position="0 -3 -1"
@@ -56,15 +55,16 @@
 				</a-entity>
 			</a-entity>
 			
-		<!-- </a-marker> -->
+		</a-marker>
 
 		<a-entity
 				fight-btn
 				id="fight-btn"
+                class="clickable"
 				visible="false"
 				position="0 0 5"
 				text="value: Fight; color: #FFD; align: center; wrapCount: 9"
-				geometry="primitive: plane; width: 0.4; height: 0.4 position: 0 0 0"
+				geometry="primitive: plane; width: 0.1; height: 0.1 position: 0 0 0"
 				material="color: #AACC00; shader: flat; visible: true; depthTest: false"
 				look-at="#camera"
 			>
@@ -80,13 +80,14 @@
 				></a-cursor>
 			</a-camera>
 		</a-entity> -->
-		<a-entity camera id="camera" look-controls >
+		<a-entity camera id="camera"  look-controls>
 			<a-entity cursor="fuse: true; fuseTimeout: 1000"
                 position="0 0 -1"
                 geometry="primitive: ring; radiusInner: 0.01; radiusOuter: 0.02"
                 material="color: black; shader: flat"
                 animation__fusing="property: scale; startEvents: fusing; easing: linear; dur: 1000; from: 1 1 1; to: 0.1 0.1 0.1"
 				animation__mouseleave="property: scale; startEvents: mouseleave; easing: easeInCubic; dur: 500; to: 1 1 1"
+                raycaster="objects: .clickable;"
                 >
             </a-entity>
 		</a-entity>

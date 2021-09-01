@@ -20,18 +20,33 @@ function pageFullyLoaded(pageFullyLoaded) {
 
         init: function () {
             let el = this.el
+
             let data = this.data
             this.speed = 2
             this.direction = new THREE.Vector3()
             this.distance = 0
             this.directionVec3 = new THREE.Vector3()
-            this.el.addEventListener('click', function (evt) {
+            el.addEventListener('click', function (evt) {
                 if (countSelectedHeroes() <= 2) {
                     if (!data.selected) {
                         count++
                         data.selected = true
                     }
                 }
+            })
+            el.parentNode.addEventListener('markerFound', function (evt) {
+                el.setAttribute('position', {
+                    x: 0,
+                    y: 0,
+                    z: 0,
+                })
+            })
+            el.parentNode.addEventListener('markerLost', function (evt) {
+                el.setAttribute('position', {
+                    x: 0,
+                    y: 0,
+                    z: 5,
+                })
             })
         },
 
@@ -49,11 +64,6 @@ function pageFullyLoaded(pageFullyLoaded) {
                 let currentPosition = el.getAttribute('position')
                 // let destination = getClosestHero(el, currentPosition)
                 let destination = getSelectedFoe(el)
-                // if(destination == null)
-                // {
-                //     return;
-                //     break;
-                // }
                 let destinationPosition = destination.getAttribute('position')
                 distance = direction.copy(destinationPosition).sub(currentPosition).length()
                 direction = direction.copy(destinationPosition).sub(currentPosition).normalize()
