@@ -172,7 +172,6 @@ function pageFullyLoaded(pageFullyLoaded) {
         init: function () {
             let el = this.el
             el.addEventListener('collision', function (evt) {
-                console.log(startCollision)
                 if (startCollision == 2) {
                     let explosion = document.createElement('a-entity')
                     let explosionPosition =
@@ -186,6 +185,8 @@ function pageFullyLoaded(pageFullyLoaded) {
                     explosion.setAttribute('animation-mixer', 'timeScale', '0.5')
                     sceneEl.appendChild(explosion)
                     startCollision = 0
+                    fightStatus = false
+                    count = 0
                 }
             })
         },
