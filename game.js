@@ -6,6 +6,9 @@ var fightBtn
 var fightStatus = false
 var count = 0
 var startCollision = 0
+var explosionPos = new THREE.Vector3()
+var explosionRotation
+var explosionMarker
 function pageFullyLoaded(pageFullyLoaded) {
     allHeroes = document.querySelectorAll('.hero')
     sceneEl = document.querySelector('a-scene')
@@ -52,8 +55,8 @@ function pageFullyLoaded(pageFullyLoaded) {
             let data = this.data
 
             //console.log(this.el.parentNode.object3D.getWorldPosition())
-            if (fightStatus && !data.entityCollided && allHeroes.length >= 2) {
-                //if (countSelectedHeroes() >= 2 && !data.entityCollided && allHeroes.length >= 2) {
+            // if (fightStatus && !data.entityCollided && allHeroes.length >= 2) {
+            if (countSelectedHeroes() >= 2 && !data.entityCollided && allHeroes.length >= 2) {
                 let el = this.el
                 let data = this.data
                 let speed = this.speed
@@ -88,19 +91,6 @@ function pageFullyLoaded(pageFullyLoaded) {
         },
     })
 
-    function getPositionOfSelectedHeroes() {
-        let selectedPos = []
-
-        allHeroes.forEach((hero) => {
-            if (hero.getAttribute('test').selected) {
-                let heroPositionCopy = new THREE.Vector3()
-                heroPositionCopy.copy(hero.getAttribute('position'))
-                selectedPos.push(heroPositionCopy)
-            }
-        })
-        return selectedPos
-    }
-
     AFRAME.registerComponent('fight-btn', {
         schema: {
             active: { type: 'boolean', default: false },
@@ -122,11 +112,13 @@ function pageFullyLoaded(pageFullyLoaded) {
             let data = this.data
         },
 
+        remove: function () {},
+
         tick: function (time, timeDelta) {
             let el = this.el
             let data = this.data
             let pos = this.pos
-            if (count >= 2) {
+            if (count >= 3) {
                 pos = getPositionOfSelectedHeroes()
                 fightBtn.setAttribute('visible', true)
                 el.setAttribute('position', {
@@ -151,16 +143,23 @@ function pageFullyLoaded(pageFullyLoaded) {
             el.addEventListener('collision', function (evt) {
                 if (startCollision == 2) {
                     let explosion = document.createElement('a-entity')
-                    let explosionPosition =
-                        evt.detail.position.x + ' ' + evt.detail.position.y + ' ' + evt.detail.position.z
+                    fight()
+                    // let explosionPosition =
+                    //     explosionPos.x + ' ' + explosionPos.y + ' ' + explosionPos.z
                     explosion.setAttribute('gltf-model', '#explosion')
-                    explosion.setAttribute('scale', '0.008 0.008 0.008')
-                    explosion.setAttribute('position', explosionPosition)
+                    explosion.setAttribute('scale', '0.007 0.007 0.007')
+                    // explosion.setAttribute('rotation', {
+                    //     x: explosionRotation.x,
+                    //     y: explosionRotation.y,
+                    //     z: explosionRotation.z,
+                    // })
+                    // explosion.setAttribute('position', explosionPosition)
                     explosion.setAttribute('animation-mixer', 'clip', 'Take 001')
                     explosion.setAttribute('animation-mixer', 'loop', 'once')
                     explosion.setAttribute('animation-mixer', 'clampWhenFinished', 'true')
                     explosion.setAttribute('animation-mixer', 'timeScale', '0.4')
-                    sceneEl.appendChild(explosion)
+                    console.log(explosionMarker)
+                    explosionMarker.appendChild(explosion)
                     startCollision = 0
                     fightStatus = false
                     count = 0
@@ -186,6 +185,16 @@ function pageFullyLoaded(pageFullyLoaded) {
             }
         })
         return selectedFoe
+    }
+
+    function getAllSelected() {
+        let selected = []
+        allHeroes.forEach((hero) => {
+            if (hero.getAttribute('test').selected) {
+                selected.push(hero)
+            }
+        })
+        return selected
     }
 
     function getClosestHero(currentEl, currentPos) {
@@ -225,5 +234,44 @@ function pageFullyLoaded(pageFullyLoaded) {
                 'Attack: ' + hero.getAttribute('attack') + ' \n' + 'Defense: ' + hero.getAttribute('defense')
             )
         })
+    }
+
+    function getPositionOfSelectedHeroes() {
+        let selectedPos = []
+
+        allHeroes.forEach((hero) => {
+            if (hero.getAttribute('test').selected) {
+                let heroPositionCopy = new THREE.Vector3()
+                heroPositionCopy.copy(hero.getAttribute('position'))
+                selectedPos.push(heroPositionCopy)
+            }
+        })
+        return selectedPos
+    }
+
+    function fight() {
+        let allSelected = getAllSelected()
+        if (allSelected[0].getAttribute('defense') === allSelected[1].getAttribute('attack')) {
+            allSelected[0].parentNode.removeChild(allSelected[0])
+            allSelected[1].parentNode.removeChild(allSelected[1])
+        } else if (allSelected[0].getAttribute('defense') < allSelected[1].getAttribute('attack')) {
+            explosionPos = explosionPos.copy(allSelected[0].parentNode.getAttribute('position'))
+            explosionRotation = allSelected[0].parentNode.getAttribute('rotation')
+            explosionMarker = allSelected[0].parentNode
+            allSelected[0].parentNode.removeChild(allSelected[0])
+            console.log(explosionMarker)
+        } else {
+            explosionPos = explosionPos.copy(allSelected[1].parentNode.getAttribute('position'))
+            explosionRotation = allSelected[1].parentNode.getAttribute('rotation')
+            allSelected[1].parentNode.removeChild(allSelected[1])
+            explosionMarker = allSelected[1].parentNode
+        }
+
+        allHeroes.forEach((hero) => {
+            if (hero.getAttribute('test').selected) {
+                hero.getAttribute('test').selected = false
+            }
+        })
+        return
     }
 }

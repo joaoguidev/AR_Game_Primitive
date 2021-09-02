@@ -24,15 +24,15 @@
 			<a-asset-item id="sword" src="./assets/sword/scene.gltf" ></a-asset-item>
 		</a-assets>
 
-		<!-- <a-marker type='barcode' value='0' > -->
+		<a-marker type='barcode' value='0' >
 			<a-entity 
 				test
-				class="hero clickable"
+				class="hero"
                 attack='4'
                 defense='5'
 				gltf-model="#robot" 
 				scale="0.008 0.008 0.008" 
-				position="3 1 -15"
+				position="0 0 0"
 				animation-mixer="clip: Take 001">
                 <a-entity
                     scale="100 100 100" 
@@ -48,17 +48,17 @@
                     </a-entity>
 				</a-entity>
 			</a-entity>
-		<!-- </a-marker> -->
+		</a-marker>
 
-		<!-- <a-marker type='barcode' value='1' > -->
+		<a-marker type='barcode' value='1' >
 			<a-entity 
 				test
-				class="hero clickable"
+				class="hero"
                 attack='6'
                 defense='7'
 				gltf-model="#whale" 
 				scale="0.9 0.9 0.9" 
-				position="-3 -1 -15"
+				position="0 0 0"
 				animation-mixer="clip: Swimming">
 				<a-entity
 						position="0 1.5 0"
@@ -74,7 +74,7 @@
 				</a-entity>
 			</a-entity>
 			
-		<!-- </a-marker> -->
+		</a-marker>
 
         <a-entity 
         fight-btn
