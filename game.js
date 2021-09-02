@@ -6,8 +6,6 @@ var fightBtn
 var fightStatus = false
 var count = 0
 var startCollision = 0
-var explosionPos = new THREE.Vector3()
-var explosionRotation
 var explosionMarker
 function pageFullyLoaded(pageFullyLoaded) {
     allHeroes = document.querySelectorAll('.hero')
@@ -142,24 +140,8 @@ function pageFullyLoaded(pageFullyLoaded) {
             let el = this.el
             el.addEventListener('collision', function (evt) {
                 if (startCollision == 2) {
-                    let explosion = document.createElement('a-entity')
                     fight()
-                    // let explosionPosition =
-                    //     explosionPos.x + ' ' + explosionPos.y + ' ' + explosionPos.z
-                    explosion.setAttribute('gltf-model', '#explosion')
-                    explosion.setAttribute('scale', '0.007 0.007 0.007')
-                    // explosion.setAttribute('rotation', {
-                    //     x: explosionRotation.x,
-                    //     y: explosionRotation.y,
-                    //     z: explosionRotation.z,
-                    // })
-                    // explosion.setAttribute('position', explosionPosition)
-                    explosion.setAttribute('animation-mixer', 'clip', 'Take 001')
-                    explosion.setAttribute('animation-mixer', 'loop', 'once')
-                    explosion.setAttribute('animation-mixer', 'clampWhenFinished', 'true')
-                    explosion.setAttribute('animation-mixer', 'timeScale', '0.4')
-                    console.log(explosionMarker)
-                    explosionMarker.appendChild(explosion)
+
                     startCollision = 0
                     fightStatus = false
                     count = 0
@@ -252,19 +234,20 @@ function pageFullyLoaded(pageFullyLoaded) {
     function fight() {
         let allSelected = getAllSelected()
         if (allSelected[0].getAttribute('defense') === allSelected[1].getAttribute('attack')) {
+            explosionMarker = allSelected[0].parentNode
+            explodeCard(explosionMarker)
             allSelected[0].parentNode.removeChild(allSelected[0])
+            explosionMarker = allSelected[1].parentNode
+            explodeCard(explosionMarker)
             allSelected[1].parentNode.removeChild(allSelected[1])
         } else if (allSelected[0].getAttribute('defense') < allSelected[1].getAttribute('attack')) {
-            explosionPos = explosionPos.copy(allSelected[0].parentNode.getAttribute('position'))
-            explosionRotation = allSelected[0].parentNode.getAttribute('rotation')
             explosionMarker = allSelected[0].parentNode
             allSelected[0].parentNode.removeChild(allSelected[0])
-            console.log(explosionMarker)
+            explodeCard(explosionMarker)
         } else {
-            explosionPos = explosionPos.copy(allSelected[1].parentNode.getAttribute('position'))
-            explosionRotation = allSelected[1].parentNode.getAttribute('rotation')
-            allSelected[1].parentNode.removeChild(allSelected[1])
             explosionMarker = allSelected[1].parentNode
+            allSelected[1].parentNode.removeChild(allSelected[1])
+            explodeCard(explosionMarker)
         }
 
         allHeroes.forEach((hero) => {
@@ -273,5 +256,16 @@ function pageFullyLoaded(pageFullyLoaded) {
             }
         })
         return
+    }
+
+    function explodeCard(markerToExplode) {
+        let explosion = document.createElement('a-entity')
+        explosion.setAttribute('gltf-model', '#explosion')
+        explosion.setAttribute('scale', '0.007 0.007 0.007')
+        explosion.setAttribute('animation-mixer', 'clip', 'Take 001')
+        explosion.setAttribute('animation-mixer', 'loop', 'once')
+        explosion.setAttribute('animation-mixer', 'clampWhenFinished', 'true')
+        explosion.setAttribute('animation-mixer', 'timeScale', '0.4')
+        markerToExplode.appendChild(explosion)
     }
 }
