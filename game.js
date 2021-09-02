@@ -11,6 +11,7 @@ function pageFullyLoaded(pageFullyLoaded) {
     sceneEl = document.querySelector('a-scene')
     fightBtn = document.querySelector('#fight-btn')
     camera = document.querySelector('#camera')
+    initHeroesDisplay()
 
     AFRAME.registerComponent('test', {
         schema: {
@@ -21,10 +22,8 @@ function pageFullyLoaded(pageFullyLoaded) {
 
         init: function () {
             let el = this.el
+
             let data = this.data
-            this.test = true
-            this.parent = this.el.parentNode
-            this.markerPos = new THREE.Vector3()
             this.speed = 2
             this.direction = new THREE.Vector3()
             this.distance = 0
@@ -51,42 +50,29 @@ function pageFullyLoaded(pageFullyLoaded) {
 
         tick: function (time, timeDelta) {
             let data = this.data
-            //console.log(this.el.parentNode.object3D.getWorldPosition())
 
-            // if (fightStatus && !data.entityCollided && allHeroes.length >= 2) {
-            if (count >= 2) {
-                this.test = false
+            //console.log(this.el.parentNode.object3D.getWorldPosition())
+            if (fightStatus && !data.entityCollided && allHeroes.length >= 2) {
+                //if (countSelectedHeroes() >= 2 && !data.entityCollided && allHeroes.length >= 2) {
                 let el = this.el
                 let data = this.data
-                let marker = this.parent
-                let markerPos = this.markerPos
-                let foeMarkerPos = new THREE.Vector3()
                 let speed = this.speed
                 let direction = this.direction
                 let directionVec3 = this.directionVec3
                 let distance = this.distance
+
                 let currentPosition = el.getAttribute('position')
-                // let destination = getClosestHero(el, currentPosition)
-                markerPos.copy(marker.getAttribute('position'))
+                //let currentPosition = el.parentNode.getAttribute('position')
 
-                foeMarkerPos.copy(getSelectedFoe(el).parentNode.getAttribute('position'))
-                // console.log('marker')
-                // console.log(markerPos)
-                // console.log('foe')
-                // console.log(foeMarkerPos)
-                foeMarkerPos.sub(markerPos)
-                //console.log(foeMarkerPos)
-                // console.log('foe Sub')
-                // console.log(foeMarkerPos)
+                let destination = getSelectedFoe(el)
+                //let destination = getSelectedFoe(el).parentNode
 
-                //let destination = getSelectedFoe(el)
-                //let destinationPosition = destination.getAttribute('position')
-                let destinationPosition = foeMarkerPos
-                distance = foeMarkerPos.length()
-                direction = foeMarkerPos.normalize()
+                let destinationPosition = destination.getAttribute('position')
+                distance = direction.copy(destinationPosition).sub(currentPosition).length()
+                direction = direction.copy(destinationPosition).sub(currentPosition).normalize()
                 directionVec3.copy(destinationPosition).sub(currentPosition)
                 let factor = speed / distance
-                if (distance >= 0.5) {
+                if (distance >= 2) {
                     this.el.setAttribute('position', {
                         x: currentPosition.x + (directionVec3.x *= factor * (timeDelta / 1000)),
                         y: currentPosition.y + (directionVec3.y *= factor * (timeDelta / 1000)),
@@ -113,47 +99,6 @@ function pageFullyLoaded(pageFullyLoaded) {
             }
         })
         return selectedPos
-    }
-
-    function getSelectedFoe(currentEl) {
-        let selectedFoe
-        allHeroes.forEach((hero) => {
-            if (hero !== currentEl) {
-                if (hero.getAttribute('test').selected) {
-                    selectedFoe = hero
-                }
-            }
-        })
-        return selectedFoe
-    }
-
-    function getClosestHero(currentEl, currentPos) {
-        let closestHero = Number.MAX_VALUE
-        let heroPositionCopy = new THREE.Vector3()
-        let currentPosCopy = new THREE.Vector3()
-        currentPosCopy.copy(currentPos)
-
-        allHeroes.forEach((hero) => {
-            heroPositionCopy.copy(hero.getAttribute('position'))
-            let distanceToHero = heroPositionCopy.sub(currentPosCopy).length()
-
-            if (currentEl !== hero) {
-                if (closestHero > distanceToHero) {
-                    closestHero = hero
-                }
-            }
-        })
-        return closestHero
-    }
-
-    function countSelectedHeroes() {
-        let counter = 0
-        allHeroes.forEach((hero) => {
-            if (hero.getAttribute('test').selected) {
-                counter++
-            }
-        })
-        return counter
     }
 
     AFRAME.registerComponent('fight-btn', {
@@ -209,12 +154,12 @@ function pageFullyLoaded(pageFullyLoaded) {
                     let explosionPosition =
                         evt.detail.position.x + ' ' + evt.detail.position.y + ' ' + evt.detail.position.z
                     explosion.setAttribute('gltf-model', '#explosion')
-                    explosion.setAttribute('scale', '0.005 0.005 0.005')
+                    explosion.setAttribute('scale', '0.008 0.008 0.008')
                     explosion.setAttribute('position', explosionPosition)
                     explosion.setAttribute('animation-mixer', 'clip', 'Take 001')
                     explosion.setAttribute('animation-mixer', 'loop', 'once')
                     explosion.setAttribute('animation-mixer', 'clampWhenFinished', 'true')
-                    explosion.setAttribute('animation-mixer', 'timeScale', '0.5')
+                    explosion.setAttribute('animation-mixer', 'timeScale', '0.4')
                     sceneEl.appendChild(explosion)
                     startCollision = 0
                     fightStatus = false
@@ -229,4 +174,56 @@ function pageFullyLoaded(pageFullyLoaded) {
 
         tick: function (time, timeDelta) {},
     })
+
+    //************************************ HELPER FUNCTIONS ************************************ */
+    function getSelectedFoe(currentEl) {
+        let selectedFoe
+        allHeroes.forEach((hero) => {
+            if (hero !== currentEl) {
+                if (hero.getAttribute('test').selected) {
+                    selectedFoe = hero
+                }
+            }
+        })
+        return selectedFoe
+    }
+
+    function getClosestHero(currentEl, currentPos) {
+        let closestHero = Number.MAX_VALUE
+        let heroPositionCopy = new THREE.Vector3()
+        let currentPosCopy = new THREE.Vector3()
+        currentPosCopy.copy(currentPos)
+
+        allHeroes.forEach((hero) => {
+            heroPositionCopy.copy(hero.getAttribute('position'))
+            let distanceToHero = heroPositionCopy.sub(currentPosCopy).length()
+
+            if (currentEl !== hero) {
+                if (closestHero > distanceToHero) {
+                    closestHero = hero
+                }
+            }
+        })
+        return closestHero
+    }
+
+    function countSelectedHeroes() {
+        let counter = 0
+        allHeroes.forEach((hero) => {
+            if (hero.getAttribute('test').selected) {
+                counter++
+            }
+        })
+        return counter
+    }
+
+    function initHeroesDisplay() {
+        allHeroes.forEach((hero) => {
+            hero.children[0].setAttribute(
+                'text',
+                'value',
+                'Attack: ' + hero.getAttribute('attack') + ' \n' + 'Defense: ' + hero.getAttribute('defense')
+            )
+        })
+    }
 }

@@ -24,40 +24,57 @@
 			<a-asset-item id="sword" src="./assets/sword/scene.gltf" ></a-asset-item>
 		</a-assets>
 
-		<a-marker type='barcode' value='0' >
+		<!-- <a-marker type='barcode' value='0' > -->
 			<a-entity 
 				test
-				class="hero"
+				class="hero clickable"
+                attack='4'
+                defense='5'
 				gltf-model="#robot" 
 				scale="0.008 0.008 0.008" 
-				position="0 0 0"
+				position="3 1 -15"
 				animation-mixer="clip: Take 001">
+                <a-entity
+                    scale="100 100 100" 
+                    position="0 300 0"
+                    text="value: Attack: 2 \n Defense: 4; color: #ecf0f1; align: center; wrapCount: 9; lineHeight:70"
+                    look-at="#camera"
+                >
+                    <a-entity
+                            geometry="primitive: plane; width: 1; height: 0.7 position: 0 0 0.02"
+                            material="color: #2c3e50; shader: flat; visible: true; depthTest: false; opacity: 0.2"
+                            look-at="#camera"
+                        >
+                    </a-entity>
+				</a-entity>
 			</a-entity>
-		</a-marker>
+		<!-- </a-marker> -->
 
-		<a-marker type='barcode' value='1' >
+		<!-- <a-marker type='barcode' value='1' > -->
 			<a-entity 
 				test
-				class="hero"
+				class="hero clickable"
+                attack='6'
+                defense='7'
 				gltf-model="#whale" 
 				scale="0.9 0.9 0.9" 
-				position="0 0 0"
+				position="-3 -1 -15"
 				animation-mixer="clip: Swimming">
 				<a-entity
 						position="0 1.5 0"
 						text="value: Attack: 5 \n Defense: 2; color: #ecf0f1; align: center; wrapCount: 9; lineHeight:70"
 						look-at="#camera"
 					>
-                    //"#2c3e50"
+                    
                     <a-entity
                         geometry="primitive: plane; width: 1; height: 0.7 position: 0 0 0.02"
-						material="color: green; shader: flat; visible: true; depthTest: false; opacity: 0.2"
+						material="color: #2c3e50; shader: flat; visible: true; depthTest: false; opacity: 0.2"
                         look-at="#camera"
                     ></a-entity>
 				</a-entity>
 			</a-entity>
 			
-		</a-marker>
+		<!-- </a-marker> -->
 
         <a-entity 
         fight-btn
@@ -84,7 +101,7 @@
 
         <!-- <a-entity line="start: 0 1 0; end: 2 0 -5; color: red"></a-entity> -->
         <!-- look-controls -->
-		<a-entity camera id="camera">
+		<a-entity camera id="camera" look-controls >
 			<a-entity 
                 cursor="fuse: true; fuseTimeout: 1000"
                 position="0 0 -1"
