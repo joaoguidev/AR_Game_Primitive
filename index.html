@@ -20,8 +20,13 @@
 		<a-assets>
 			<a-asset-item id="robot" src="./assets/robot/robot.glb" ></a-asset-item>
 			<a-asset-item id="whale" src="./assets/whale/scene.gltf" ></a-asset-item>
+			<a-asset-item id="bawanglong" src="./assets/trex/scene.glb" ></a-asset-item>
+			<a-asset-item id="mantis" src="./assets/mantis/scene.glb" ></a-asset-item>
+			<a-asset-item id="dragon" src="./assets/dragon/scene.glb" ></a-asset-item>
+			<a-asset-item id="phoenix" src="./assets/phoenix/scene.glb" ></a-asset-item>
 			<a-asset-item id="explosion" src="./assets/explosion/scene.gltf" ></a-asset-item>
 			<a-asset-item id="sword" src="./assets/sword/scene.gltf" ></a-asset-item>
+    	<audio id="selectionSound" src="./assets/audio/confirmation_001.ogg" preload="auto"></audio>
 		</a-assets>
 
 		<a-marker type='barcode' value='0' >
@@ -66,6 +71,110 @@
 						look-at="#camera"
 					>
                     
+					<a-entity
+							geometry="primitive: plane; width: 1; height: 0.7 position: 0 0 0.02"
+							material="color: #2c3e50; shader: flat; visible: true; depthTest: false; opacity: 0.2"
+							look-at="#camera"
+					></a-entity>
+				</a-entity>
+			</a-entity>
+			
+		</a-marker>
+
+		<a-marker type='barcode' value='2' >
+			<a-entity 
+				test
+				class="hero"
+                attack='6'
+                defense='7'
+				gltf-model="#bawanglong" 
+				scale="0.3 0.3 0.3" 
+				position="0 0 0"
+				animation-mixer="clip: Bip001|Take 001|BaseLayer">
+				<a-entity
+						position="0 1.5 0"
+						text="value: Attack: 5 \n Defense: 2; color: #ecf0f1; align: center; wrapCount: 9; lineHeight:70"
+						look-at="#camera"
+					>
+                    
+                    <a-entity
+                        geometry="primitive: plane; width: 1; height: 0.7 position: 0 0 0.02"
+						material="color: #2c3e50; shader: flat; visible: true; depthTest: false; opacity: 0.2"
+                        look-at="#camera"
+                    ></a-entity>
+				</a-entity>
+			</a-entity>
+			
+		</a-marker>
+
+		<a-marker type='barcode' value='3' >
+			<a-entity 
+				test
+				class="hero"
+                attack='6'
+                defense='7'
+				gltf-model="#mantis" 
+				scale="0.01 0.01 0.01"
+				position="0 0 0"
+				animation-mixer="clip: mantis_anim">
+				<a-entity
+						position="0 1.5 0"
+						text="value: Attack: 5 \n Defense: 2; color: #ecf0f1; align: center; wrapCount: 9; lineHeight:70"
+						look-at="#camera"
+					>
+                    
+                    <a-entity
+                        geometry="primitive: plane; width: 1; height: 0.7 position: 0 0 0.02"
+						material="color: #2c3e50; shader: flat; visible: true; depthTest: false; opacity: 0.2"
+                        look-at="#camera"
+                    ></a-entity>
+				</a-entity>
+			</a-entity>
+			
+		</a-marker>
+
+		<a-marker type='barcode' value='4' >
+			<a-entity 
+				test
+				class="hero"
+                attack='6'
+                defense='7'
+				gltf-model="#dragon" 
+				scale="0.009 0.009 0.009" 
+				position="0 0 0"
+				animation-mixer="clip: Take 001">
+				<a-entity
+						position="0 1.5 0"
+						text="value: Attack: 5 \n Defense: 2; color: #ecf0f1; align: center; wrapCount: 9; lineHeight:70"
+						look-at="#camera"
+					>
+                    
+                    <a-entity
+                        geometry="primitive: plane; width: 1; height: 0.7 position: 0 0 0.02"
+						material="color: #2c3e50; shader: flat; visible: true; depthTest: false; opacity: 0.2"
+                        look-at="#camera"
+                    ></a-entity>
+				</a-entity>
+			</a-entity>
+			
+		</a-marker>
+
+		<a-marker type='barcode' value='5' >
+			<a-entity 
+				test
+				class="hero"
+                attack='6'
+                defense='7'
+				gltf-model="#phoenix" 
+				scale="0.004 0.004 0.004" 
+				position="0 0 0"
+				animation-mixer="clip: Take 001">
+				<a-entity
+						position="0 1.5 0"
+						text="value: Attack: 5 \n Defense: 2; color: #ecf0f1; align: center; wrapCount: 9; lineHeight:70"
+						look-at="#camera"
+					>
+                    
                     <a-entity
                         geometry="primitive: plane; width: 1; height: 0.7 position: 0 0 0.02"
 						material="color: #2c3e50; shader: flat; visible: true; depthTest: false; opacity: 0.2"
@@ -103,6 +212,7 @@
         <!-- look-controls -->
 		<a-entity camera id="camera" look-controls >
 			<a-entity 
+								sound="src: #selectionSound; on: click"
                 cursor="fuse: true; fuseTimeout: 1000"
                 position="0 0 -1"
                 geometry="primitive: ring; radiusInner: 0.01; radiusOuter: 0.02"

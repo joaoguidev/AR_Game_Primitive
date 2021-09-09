@@ -12,6 +12,7 @@ function pageFullyLoaded(pageFullyLoaded) {
     sceneEl = document.querySelector('a-scene')
     fightBtn = document.querySelector('#fight-btn')
     camera = document.querySelector('#camera')
+    selectionSound = document.querySelector('#selectionSound')
     initHeroesDisplay()
 
     AFRAME.registerComponent('test', {
